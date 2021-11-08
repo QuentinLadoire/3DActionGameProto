@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
 	private InputAction attackAction = null;
 
 	private Player player = null;
-	private PlayerMovement playerMovement = null;
+	private PlayerDodgeComponent playerDodge = null;
+	private PlayerMovementComponent playerMovement = null;
 
 	private void Awake()
 	{
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		player = GetComponent<Player>();
-		playerMovement = GetComponent<PlayerMovement>();
+		playerMovement = GetComponent<PlayerMovementComponent>();
 	}
 	private void Update()
 	{
