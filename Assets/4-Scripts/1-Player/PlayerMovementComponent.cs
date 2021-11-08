@@ -6,9 +6,9 @@ public class PlayerMovementComponent : MonoBehaviour
 {
 	private new Rigidbody rigidbody = null;
 
-	//set by Player Controller
-	public float movementSpeed = 5.0f;
-	public Vector3 direction = Vector3.zero;
+	private bool move = false;
+	private float speed = 5.0f;
+	private Vector3 direction = Vector3.zero;
 
 	private void Awake()
 	{
@@ -16,7 +16,24 @@ public class PlayerMovementComponent : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		var desiredPosition = transform.position + direction * movementSpeed * Time.deltaTime;
+		if (!move) return;
+
+		var desiredPosition = transform.position + direction * speed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(desiredPosition);
+	}
+
+	public void Move(Vector3 direction, float speed)
+	{
+		this.direction = direction;
+		this.speed = speed;
+
+		move = true;
+	}
+	public void Stop()
+	{
+		direction = Vector3.zero;
+		speed = 0.0f;
+
+		move = false;
 	}
 }
