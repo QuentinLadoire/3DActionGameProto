@@ -30,21 +30,30 @@ public class PlayerController : MonoBehaviour
 	{
 		if (dodgeAction.triggered && !playerDodgeComponent.HasDodge)
 		{
-			playerMovementComponent.Stop();
-		
-			var moveInput = moveAction.ReadValue<Vector2>();
-			var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
-			if (direction == Vector3.zero)
-				direction = transform.forward;
-		
-			playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed);
+			Dodge();
 		}
 		else if (!playerDodgeComponent.HasDodge)
 		{
-			var moveInput = moveAction.ReadValue<Vector2>();
-			var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
-		
-			playerMovementComponent.Move(direction, player.Stats.MovementSpeed);
+			Move();
 		}
+	}
+
+	private void Move()
+	{
+		var moveInput = moveAction.ReadValue<Vector2>();
+		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
+
+		playerMovementComponent.Move(direction, player.Stats.MovementSpeed);
+	}
+	private void Dodge()
+	{
+		playerMovementComponent.Stop();
+
+		var moveInput = moveAction.ReadValue<Vector2>();
+		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
+		if (direction == Vector3.zero)
+			direction = transform.forward;
+
+		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed);
 	}
 }
