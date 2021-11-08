@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
 	private Player player = null;
 	private PlayerDodgeComponent playerDodgeComponent = null;
+	private PlayerAttackComponent playerAttackComponent = null;
 	private PlayerMovementComponent playerMovementComponent = null;
 
 	private void Awake()
@@ -24,36 +25,50 @@ public class PlayerController : MonoBehaviour
 
 		player = GetComponent<Player>();
 		playerDodgeComponent = GetComponent<PlayerDodgeComponent>();
+		playerAttackComponent = GetComponent<PlayerAttackComponent>();
 		playerMovementComponent = GetComponent<PlayerMovementComponent>();
 	}
 	private void Update()
 	{
-		if (dodgeAction.triggered && !playerDodgeComponent.HasDodge)
-		{
-			Dodge();
-		}
-		else if (!playerDodgeComponent.HasDodge)
-		{
-			Move();
-		}
-	}
-
-	private void Move()
-	{
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 
-		playerMovementComponent.Move(direction, player.Stats.MovementSpeed);
+		if (!playerDodgeComponent.HasDodge && dodgeAction.triggered)
+		{
+			Dodge(direction);
+		}
+		else if (!playerAttackComponent.HasAttack && attackAction.triggered)
+		{
+			Attack();
+		}
+		else if (!playerDodgeComponent.HasDodge && !playerAttackComponent.HasAttack)
+		{
+			Move(direction);
+		}
 	}
-	private void Dodge()
+
+	private void Attack()
+	{
+		player.State = PlayerState.Attack;
+	}
+	private void Move(Vector3 direction)
+	{
+		playerMovementComponent.Move(direction, player.Stats.MovementSpeed);
+
+		if (direction != Vector3.zero)
+			player.State = PlayerState.Move;
+		else
+			player.State = PlayerState.Idle;
+	}
+	private void Dodge(Vector3 direction)
 	{
 		playerMovementComponent.Stop();
 
-		var moveInput = moveAction.ReadValue<Vector2>();
-		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		if (direction == Vector3.zero)
 			direction = transform.forward;
 
 		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed);
+
+		player.State = PlayerState.Dodge;
 	}
 }
