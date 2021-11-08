@@ -21,6 +21,11 @@ public class PlayerMovementComponent : MonoBehaviour
 		var desiredPosition = transform.position + direction * speed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(desiredPosition);
 	}
+	private void Update()
+	{
+		if (direction != Vector3.zero)
+			transform.forward = direction;
+	}
 
 	public void Move(Vector3 direction, float speed)
 	{
