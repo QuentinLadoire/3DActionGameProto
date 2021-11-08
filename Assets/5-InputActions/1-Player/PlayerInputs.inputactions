@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Dash",
+                    "name": "Dodge",
                     "type": "Button",
                     "id": "cf2ebebc-2ed6-46f3-ae85-44e1f389088b",
                     "expectedControlType": "Button",
@@ -104,7 +104,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dash",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -115,7 +115,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dash",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 	private InputAction dashAction = null;
 	private InputAction attackAction = null;
 
-	private Vector2 moveInput = Vector2.zero;
+	private Vector3 moveDirection = Vector3.zero;
 
 	private void Awake()
 	{
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 		if (playerInput != null)
 		{
 			moveAction = playerInput.actions["Move"];
-			dashAction = playerInput.actions["Dash"];
+			dashAction = playerInput.actions["Dodge"];
 			attackAction = playerInput.actions["Attack"];
 		}
 	}
@@ -33,12 +33,12 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Update()
 	{
-		moveInput = moveAction.ReadValue<Vector2>();
+		var moveInput = moveAction.ReadValue<Vector2>();
+		moveDirection = new Vector3(moveInput.x, 0.0f, moveInput.y);
 	}
 	private void FixedUpdate()
-	{
-		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
-		var desiredPosition = transform.position + direction * movementSpeed * Time.deltaTime;
+	{		
+		var desiredPosition = transform.position + moveDirection * movementSpeed * Time.deltaTime;
 		rigidbody.MovePosition(desiredPosition);
 	}
 	private void OnDestroy()
