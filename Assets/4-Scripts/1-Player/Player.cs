@@ -7,7 +7,8 @@ public enum PlayerState
 	Idle,
 	Move,
 	Dodge,
-	Attack
+	Attack,
+	Dead
 }
 
 public class Player : MonoBehaviour
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
 	private PlayerController controller = null;
 	private PlayerDodgeComponent dodgeComponent = null;
 	private PlayerAttackComponent attackComponent = null;
+	private PlayerHealthComponent healthComponent = null;
 	private PlayerMovementComponent movementComponent = null;
 
     public PlayerStats Stats => stats;
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
 	public PlayerController Controller => controller;
 	public PlayerDodgeComponent DodgeComponent => dodgeComponent;
 	public PlayerAttackComponent AttackComponent => attackComponent;
+	public PlayerHealthComponent HealthComponent => healthComponent;
 	public PlayerMovementComponent MovementComponent => movementComponent;
 
 	private void Awake()
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
 		controller = GetComponent<PlayerController>();
 		dodgeComponent = GetComponent<PlayerDodgeComponent>();
 		attackComponent = GetComponent<PlayerAttackComponent>();
+		healthComponent = GetComponent<PlayerHealthComponent>();
 		movementComponent = GetComponent<PlayerMovementComponent>();
 	}
 }

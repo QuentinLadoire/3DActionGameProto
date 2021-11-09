@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 	{
 		playerMovementComponent.Stop();
 
-		playerAttackComponent.Attack(player.Stats.AttackSpeed, player.Stats.AttackComboDelay, player.Stats.AttackComboMax);
+		playerAttackComponent.Attack();
 
 		player.State = PlayerState.Attack;
 
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Move(Vector3 direction)
 	{
-		playerMovementComponent.Move(direction, player.Stats.MovementSpeed);
+		playerMovementComponent.Move(direction);
 
 		if (direction != Vector3.zero)
 			player.State = PlayerState.Move;
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 		if (direction == Vector3.zero)
 			direction = transform.forward;
 
-		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed, player.Stats.DodgeCooldown);
+		playerDodgeComponent.Dodge(direction);
 
 		player.State = PlayerState.Dodge;
 		UpdateAnimatorState();

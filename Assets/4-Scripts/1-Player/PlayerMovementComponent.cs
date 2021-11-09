@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class PlayerMovementComponent : MonoBehaviour
 {
+	private Player player = null;
 	private new Rigidbody rigidbody = null;
 
 	private bool move = false;
-	private float speed = 5.0f;
 	private Vector3 direction = Vector3.zero;
 
 	private void Awake()
 	{
+		player = GetComponent<Player>();
 		rigidbody = GetComponent<Rigidbody>();
 	}
 	private void FixedUpdate()
 	{
 		if (!move) return;
 
-		var desiredPosition = transform.position + direction * speed * Time.fixedDeltaTime;
+		var desiredPosition = transform.position + direction * player.Stats.MovementSpeed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(desiredPosition);
 	}
 	private void Update()
@@ -29,17 +30,15 @@ public class PlayerMovementComponent : MonoBehaviour
 			transform.forward = direction;
 	}
 
-	public void Move(Vector3 direction, float speed)
+	public void Move(Vector3 direction)
 	{
 		this.direction = direction;
-		this.speed = speed;
 
 		move = true;
 	}
 	public void Stop()
 	{
 		direction = Vector3.zero;
-		speed = 0.0f;
 
 		move = false;
 	}

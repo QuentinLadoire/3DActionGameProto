@@ -5,12 +5,11 @@ using UnityEngine.Events;
 
 public class PlayerDodgeComponent : MonoBehaviour
 {
+	private Player player = null;
 	private new Rigidbody rigidbody = null;
 
-    private float speed = 10.0f;
 	private float duration = 0.0f;
 	private float cooldown = 0.0f;
-	private float cooldownMax = 0.0f;
 	private Vector3 direction = Vector3.zero;
 
 	private bool hasDodge = false;
@@ -21,19 +20,20 @@ public class PlayerDodgeComponent : MonoBehaviour
 	public bool CanDodge => !hasDodge && !inCooldown;
 
 	public float Cooldown => cooldown;
-	public float CooldownInPercent => cooldown / cooldownMax;
+	public float CooldownInPercent => cooldown / player.Stats.DodgeCooldown;
 
 	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
 
 	private void Awake()
 	{
+		player = GetComponent<Player>();
 		rigidbody = GetComponent<Rigidbody>();
 	}
 	private void FixedUpdate()
 	{
 		if (!hasDodge) return;
 
-		var newPosition = transform.position + direction * speed * Time.fixedDeltaTime;
+		var newPosition = transform.position + direction * player.Stats.DodgeSpeed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(newPosition);
 	}
 	private void Update()
@@ -61,16 +61,14 @@ public class PlayerDodgeComponent : MonoBehaviour
 		}
 	}
 
-	public void Dodge(Vector3 direction, float distance, float speed, float cooldown)
+	public void Dodge(Vector3 direction)
 	{
 		if (!CanDodge) return;
 
-		this.speed = speed;
 		this.direction = direction;
-		this.duration = distance / speed;
+		this.duration = player.Stats.DodgeDistance / player.Stats.DodgeSpeed;
 
-		this.cooldownMax = cooldown;
-		this.cooldown = cooldownMax;
+		this.cooldown = player.Stats.DodgeCooldown;
 
 		transform.forward = direction;
 
