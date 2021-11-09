@@ -88,6 +88,6 @@ public class PlayerController : MonoBehaviour
 	}
 	private void UpdateAnimatorComboCount()
 	{
-		player.Animator.SetInteger("ComboCount", playerAttackComponent.CurrentCombo);
+		player.Animator.SetInteger("ComboCount", playerAttackComponent.Combo);
 	}
 }

@@ -4,39 +4,50 @@ using UnityEngine;
 
 public class PlayerAttackComponent : MonoBehaviour
 {
-	private bool hasAttack = false;
+	private float cooldown = 0.0f;
+	private float cooldownMax = 0.0f;
 
+	private int combo = 0;
 	private int comboMax = 0;
-	private int currentCombo = 0;
-
 	private float comboDelay = 0.0f;
-	private float attackDelay = 0.0f;
+	private float comboDelayMax = 0.0f;
 
-    public bool HasAttack => hasAttack;
-	public bool CanAttack => !hasAttack;
-	public int CurrentCombo => currentCombo;
+	private bool inCooldown = false;
+	private bool inCombo = false;
+
+	public bool HasAttack => inCooldown;
+	public bool CanAttack => !inCooldown;
+
+	public bool InCombo => inCombo;
+	public bool InCooldown => inCooldown;
+
+	public float Cooldown => cooldown;
+	public float CooldownInPercent => cooldown / cooldownMax;
+
+	public int Combo => combo;
+	public float ComboDelay => comboDelay;
+	public float ComboDelayInPercent => comboDelay / comboDelayMax;
 
 	private void Update()
 	{
-		if (hasAttack)
+		if (inCooldown)
 		{
-			attackDelay -= Time.deltaTime;
-			if (attackDelay <= 0.0f)
+			cooldown -= Time.deltaTime;
+			if (cooldown <= 0.0f)
 			{
-				hasAttack = false;
+				cooldown = 0.0f;
+				inCooldown = false;
 			}
 		}
-		else if (currentCombo != 0)
+		else if (inCombo)
 		{
-			if (currentCombo == comboMax)
+			comboDelay -= Time.deltaTime;
+
+			if (comboDelay <= 0.0f || combo == comboMax)
 			{
-				currentCombo = 0;
-			}
-			else
-			{
-				comboDelay -= Time.deltaTime;
-				if (comboDelay <= 0.0f)
-					currentCombo = 0;
+				comboDelay = 0.0f;
+				combo = 0;
+				inCombo = false;
 			}
 		}
 	}
@@ -45,12 +56,16 @@ public class PlayerAttackComponent : MonoBehaviour
 	{
 		if (!CanAttack) return;
 
+		cooldownMax = 1 / attackSpeed;
+		cooldown = cooldownMax;
+
 		this.comboMax = comboMax;
-		this.comboDelay = comboDelay;
-		attackDelay = 1 / attackSpeed;
+		this.comboDelayMax = comboDelay;
+		this.comboDelay = comboDelayMax;
 
-		currentCombo++;
+		combo++;
 
-		hasAttack = true;
+		inCooldown = true;
+		inCombo = true;
 	}
 }
