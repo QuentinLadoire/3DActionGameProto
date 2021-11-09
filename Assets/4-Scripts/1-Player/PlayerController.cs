@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 	{
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
-
+		
 		if (!playerDodgeComponent.HasDodge && dodgeAction.triggered)
 		{
 			Dodge(direction);
@@ -49,7 +49,14 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack()
 	{
+		playerMovementComponent.Stop();
+
+		playerAttackComponent.Attack(player.Stats.AttackSpeed, player.Stats.AttackComboDelay, player.Stats.AttackComboMax);
+
 		player.State = PlayerState.Attack;
+
+		UpdateAnimatorState();
+		UpdateAnimatorComboCount();
 	}
 	private void Move(Vector3 direction)
 	{
@@ -59,6 +66,8 @@ public class PlayerController : MonoBehaviour
 			player.State = PlayerState.Move;
 		else
 			player.State = PlayerState.Idle;
+
+		UpdateAnimatorState();
 	}
 	private void Dodge(Vector3 direction)
 	{
@@ -70,5 +79,15 @@ public class PlayerController : MonoBehaviour
 		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed);
 
 		player.State = PlayerState.Dodge;
+		UpdateAnimatorState();
+	}
+
+	private void UpdateAnimatorState()
+	{
+		player.Animator.SetInteger("PlayerState", (int)player.State);
+	}
+	private void UpdateAnimatorComboCount()
+	{
+		player.Animator.SetInteger("ComboCount", playerAttackComponent.CurrentCombo);
 	}
 }

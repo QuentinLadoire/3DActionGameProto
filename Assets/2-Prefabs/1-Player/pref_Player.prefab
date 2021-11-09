@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace4d3cc34d9932468b189a4b3b22ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   idlePosition: {x: 0, y: 0, z: 0}
   movePosition: {x: 0, y: 0, z: 2}
 --- !u!1 &6801394778703549097
@@ -375,6 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6801394778703549096}
   - component: {fileID: 1376267797852091301}
+  - component: {fileID: 8475206174096913590}
   - component: {fileID: 2500174784422338248}
   - component: {fileID: 6235402023098010670}
   - component: {fileID: 6966252190673763268}
@@ -421,6 +421,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!95 &8475206174096913590
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801394778703549097}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4a19c25a8b4f26d499bdde4047a2bf64, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2500174784422338248
 MonoBehaviour:
   m_ObjectHideFlags: 0

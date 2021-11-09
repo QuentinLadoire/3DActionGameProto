@@ -25,7 +25,8 @@ public class PlayerDodgeComponent : MonoBehaviour
 		rigidbody.MovePosition(newPosition);
 
 		duration -= Time.fixedDeltaTime;
-		if (duration <= 0.0f) dodge = false;
+		if (duration <= 0.0f)
+			dodge = false;
 	}
 
 	public void Dodge(Vector3 direction, float distance, float speed)
