@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerDodgeComponent : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class PlayerDodgeComponent : MonoBehaviour
 
 	public float Cooldown => cooldown;
 	public float CooldownInPercent => cooldown / cooldownMax;
+
+	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
 
 	private void Awake()
 	{
@@ -53,6 +56,8 @@ public class PlayerDodgeComponent : MonoBehaviour
 				cooldown = 0.0f;
 				inCooldown = false;
 			}
+
+			inCooldownCallback.Invoke();
 		}
 	}
 
@@ -64,8 +69,8 @@ public class PlayerDodgeComponent : MonoBehaviour
 		this.direction = direction;
 		this.duration = distance / speed;
 
-		this.cooldown = cooldownMax;
 		this.cooldownMax = cooldown;
+		this.cooldown = cooldownMax;
 
 		transform.forward = direction;
 

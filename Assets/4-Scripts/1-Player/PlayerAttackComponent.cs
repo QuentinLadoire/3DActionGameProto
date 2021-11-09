@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerAttackComponent : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class PlayerAttackComponent : MonoBehaviour
 	public float ComboDelay => comboDelay;
 	public float ComboDelayInPercent => comboDelay / comboDelayMax;
 
+	public UnityAction inComboCallback = () => { /*Debug.Log("InComboCallback");*/ };
+	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
+
 	private void Update()
 	{
 		if (inCooldown)
@@ -38,6 +42,8 @@ public class PlayerAttackComponent : MonoBehaviour
 				cooldown = 0.0f;
 				inCooldown = false;
 			}
+
+			inCooldownCallback.Invoke();
 		}
 		else if (inCombo)
 		{
@@ -49,6 +55,8 @@ public class PlayerAttackComponent : MonoBehaviour
 				combo = 0;
 				inCombo = false;
 			}
+
+			inComboCallback.Invoke();
 		}
 	}
 
@@ -67,5 +75,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
 		inCooldown = true;
 		inCombo = true;
+
+		inComboCallback.Invoke();
 	}
 }
