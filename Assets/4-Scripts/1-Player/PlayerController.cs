@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 		player = GetComponent<Player>();
 		playerDodgeComponent = GetComponent<PlayerDodgeComponent>();
 		playerAttackComponent = GetComponent<PlayerAttackComponent>();
+		playerHealthComponent = GetComponent<PlayerHealthComponent>();
 		playerMovementComponent = GetComponent<PlayerMovementComponent>();
 	}
 	private void Update()
