@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 	private Player player = null;
 	private PlayerDodgeComponent playerDodgeComponent = null;
 	private PlayerAttackComponent playerAttackComponent = null;
+	private PlayerHealthComponent playerHealthComponent = null;
 	private PlayerMovementComponent playerMovementComponent = null;
 
 	private void Awake()
@@ -33,7 +34,11 @@ public class PlayerController : MonoBehaviour
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		
-		if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
+		if (playerHealthComponent.IsDead && player.State != PlayerState.Dead)
+		{
+			player.State = PlayerState.Dead;
+		}
+		else if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
 		{
 			Dodge(direction);
 		}
