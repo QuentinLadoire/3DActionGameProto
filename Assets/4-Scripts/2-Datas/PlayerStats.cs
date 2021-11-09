@@ -14,6 +14,11 @@ public class PlayerStats : ScriptableObject
 	[SerializeField] private float dodgeDistance = 2.0f;
 	[SerializeField] private float dodgeCooldown = 5.0f;
 
+	[Header("Attack Stats")]
+	[SerializeField] private int attackComboMax = 3;
+	[SerializeField] private float attackSpeed = 0.5f;
+	[SerializeField] private float attackComboDelay = 0.6f;
+
 
 	public int HealthMax => healthMax;
 
@@ -23,4 +28,7 @@ public class PlayerStats : ScriptableObject
 	public float DodgeDistance => dodgeDistance;
 	public float DodgeCooldown => dodgeCooldown;
 
+	public int AttackComboMax => attackComboMax;
+	public float AttackSpeed => attackSpeed;
+	public float AttackComboDelay => attackComboDelay;
 }

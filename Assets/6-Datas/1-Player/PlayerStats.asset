@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthMax: 10
   movementSpeed: 5
+  dodgeSpeed: 10
+  dodgeDistance: 2
+  dodgeCooldown: 5
+  attackComboMax: 3
+  attackSpeed: 1.5
+  attackComboDelay: 0.5
