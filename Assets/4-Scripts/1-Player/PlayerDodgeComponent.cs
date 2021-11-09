@@ -6,12 +6,16 @@ public class PlayerDodgeComponent : MonoBehaviour
 {
 	private new Rigidbody rigidbody = null;
 
-	private bool dodge = false;
+	private bool hasDodge = false;
+
     private float speed = 10.0f;
 	private float duration = 0.0f;
+	private float cooldown = 0.0f;
+
 	private Vector3 direction = Vector3.zero;
 
-	public bool HasDodge => dodge;
+	public bool HasDodge => hasDodge;
+	public bool CanDodge => !hasDodge && cooldown == 0.0f;
 
 	private void Awake()
 	{
@@ -19,29 +23,39 @@ public class PlayerDodgeComponent : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		if (!dodge) return;
+		if (!hasDodge) return;
 
 		var newPosition = transform.position + direction * speed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(newPosition);
-
-		duration -= Time.fixedDeltaTime;
-		if (duration <= 0.0f)
-			dodge = false;
 	}
 	private void Update()
 	{
-		if (!dodge) return;
+		if (hasDodge)
+		{
+			duration -= Time.deltaTime;
+			if (duration <= 0.0f)
+				hasDodge = false;
+		}
 
-		if (direction != Vector3.zero)
-			transform.forward = direction;
+		if (cooldown != 0.0f)
+		{
+			cooldown -= Time.deltaTime;
+			if (cooldown <= 0.0f)
+				cooldown = 0.0f;
+		}
 	}
 
-	public void Dodge(Vector3 direction, float distance, float speed)
+	public void Dodge(Vector3 direction, float distance, float speed, float cooldown)
 	{
+		if (!CanDodge) return;
+
 		this.speed = speed;
+		this.cooldown = cooldown;
 		this.direction = direction;
 		this.duration = distance / speed;
 
-		dodge = true;
+		transform.forward = direction;
+
+		hasDodge = true;
 	}
 }

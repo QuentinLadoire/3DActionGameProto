@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		
-		if (!playerDodgeComponent.HasDodge && dodgeAction.triggered)
+		if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
 		{
 			Dodge(direction);
 		}
-		else if (!playerAttackComponent.HasAttack && attackAction.triggered)
+		else if (playerAttackComponent.CanAttack && attackAction.triggered)
 		{
 			Attack();
 		}
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 		if (direction == Vector3.zero)
 			direction = transform.forward;
 
-		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed);
+		playerDodgeComponent.Dodge(direction, player.Stats.DodgeDistance, player.Stats.DodgeSpeed, player.Stats.DodgeCooldown);
 
 		player.State = PlayerState.Dodge;
 		UpdateAnimatorState();
