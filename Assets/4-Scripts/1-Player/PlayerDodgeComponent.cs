@@ -16,7 +16,8 @@ public class PlayerDodgeComponent : MonoBehaviour
 	private bool inCooldown = false;
 
 	public bool HasDodge => hasDodge;
-	public bool CanDodge => !hasDodge && cooldown == 0.0f;
+	public bool InCooldown => inCooldown;
+	public bool CanDodge => !hasDodge && !inCooldown;
 
 	public float Cooldown => cooldown;
 	public float CooldownInPercent => cooldown / cooldownMax;
