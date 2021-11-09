@@ -28,6 +28,13 @@ public class PlayerDodgeComponent : MonoBehaviour
 		if (duration <= 0.0f)
 			dodge = false;
 	}
+	private void Update()
+	{
+		if (!dodge) return;
+
+		if (direction != Vector3.zero)
+			transform.forward = direction;
+	}
 
 	public void Dodge(Vector3 direction, float distance, float speed)
 	{

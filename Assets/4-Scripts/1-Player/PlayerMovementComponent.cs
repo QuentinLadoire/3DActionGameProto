@@ -23,6 +23,8 @@ public class PlayerMovementComponent : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (!move) return;
+
 		if (direction != Vector3.zero)
 			transform.forward = direction;
 	}
