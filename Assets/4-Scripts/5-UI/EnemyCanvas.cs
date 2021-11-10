@@ -26,6 +26,9 @@ public class EnemyCanvas : MonoBehaviour
 
 	private void TakeHealDamageCallback()
 	{
+		if (healthComponent.Health == 0)
+			gameObject.SetActive(false);
+
 		healthBar.SetPercent(healthComponent.HealthInPercent);
 	}
 }
