@@ -19,6 +19,7 @@ public class CamFollowComponent : MonoBehaviour
 		{
 			case PlayerState.Idle:
 			case PlayerState.Attack:
+			case PlayerState.Dead:
 				IdlePosition();
 				break;
 
