@@ -11,7 +11,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
 	public int Health => health;
 	public int HealthMax => player.Stats.HealthMax;
-	public int HealthInPercent => health / player.Stats.HealthMax;
+	public float HealthInPercent => health / (float)player.Stats.HealthMax;
 
 	public bool IsDead => health == 0;
 	public bool IsAlive => health != 0;
