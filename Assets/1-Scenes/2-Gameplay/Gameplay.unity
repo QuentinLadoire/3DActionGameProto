@@ -1987,6 +1987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5cc65d7d16b6a49bd165043b3039fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topdownCamera: {fileID: 1163941282}
   gameState: 1
   playerController: {fileID: 394112850}
 --- !u!1 &1539447860
