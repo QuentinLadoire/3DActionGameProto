@@ -28,6 +28,14 @@ public class EnemyController : MonoBehaviour
 	{
 		if (character.State == CharacterState.Dead) return;
 
+		if (healthComponent.IsDead && character.State != CharacterState.Dead)
+		{
+			character.State = CharacterState.Dead;
+			UpdateAnimatorState();
+
+			return;
+		}
+
 		if (sensorComponent.HasTarget)
 		{
 			if (IsInAttackRange())
