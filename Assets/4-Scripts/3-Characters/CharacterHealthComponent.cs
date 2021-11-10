@@ -16,7 +16,7 @@ public class CharacterHealthComponent : MonoBehaviour
 	public bool IsDead => health == 0;
 	public bool IsAlive => health != 0;
 
-	public UnityAction takeDamegeCallback = () => { /*Debug.Log("TakeDamageCallback");*/ };
+	public UnityAction takeDamageCallback = () => { /*Debug.Log("TakeDamageCallback");*/ };
 	public UnityAction takeHealCallback = () => { /*Debug.Log("TakeHealCallback");*/ };
 
 	private void Awake()
@@ -32,7 +32,7 @@ public class CharacterHealthComponent : MonoBehaviour
 		if (health < 0)
 			health = 0;
 
-		takeDamegeCallback.Invoke();
+		takeDamageCallback.Invoke();
 	}
 	public void TakeHeal(int heal)
 	{

@@ -15,7 +15,7 @@ public class HealthPanel : MonoBehaviour
 		playerController = GameManager.PlayerController;
 
 		playerController.HealthComponent.takeHealCallback += TakeHealDamageCallback;
-		playerController.HealthComponent.takeDamegeCallback += TakeHealDamageCallback;
+		playerController.HealthComponent.takeDamageCallback += TakeHealDamageCallback;
 
 		//call on start for init 
 		TakeHealDamageCallback();
@@ -23,7 +23,7 @@ public class HealthPanel : MonoBehaviour
 	private void OnDestroy()
 	{
 		playerController.HealthComponent.takeHealCallback -= TakeHealDamageCallback;
-		playerController.HealthComponent.takeDamegeCallback -= TakeHealDamageCallback;
+		playerController.HealthComponent.takeDamageCallback -= TakeHealDamageCallback;
 	}
 
 	private void TakeHealDamageCallback()
