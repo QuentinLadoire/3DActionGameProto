@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 		}
 		else if (Keyboard.current.numpadMinusKey.wasPressedThisFrame)
 		{
-			playerController.HealthComponent.TakeDamege(1);
+			playerController.HealthComponent.TakeDamage(1);
 		}
 	}
 

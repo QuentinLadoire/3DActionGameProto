@@ -26,7 +26,7 @@ public class CharacterHealthComponent : MonoBehaviour
 		health = character.Stats.HealthMax;
 	}
 
-	public void TakeDamege(int damage)
+	public void TakeDamage(int damage)
 	{
 		health -= damage;
 		if (health < 0)

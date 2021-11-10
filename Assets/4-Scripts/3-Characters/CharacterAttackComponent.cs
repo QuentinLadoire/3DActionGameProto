@@ -7,14 +7,17 @@ public class CharacterAttackComponent : MonoBehaviour
 {
 	private Character character = null;
 
+	private float damageDelay = 0.0f;
+
 	private float cooldown = 0.0f;
 	private float cooldownMax = 0.0f;
 
 	private int combo = 0;
 	private float comboDelay = 0.0f;
 
-	private bool inCooldown = false;
 	private bool inCombo = false;
+	private bool inAttack = false;
+	private bool inCooldown = false;
 
 	public bool HasAttack => inCooldown;
 	public bool CanAttack => !inCooldown;
@@ -38,6 +41,18 @@ public class CharacterAttackComponent : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (inAttack)
+		{
+			damageDelay -= Time.deltaTime;
+			if (damageDelay <= 0.0f)
+			{
+				ApplyDamage();
+
+				damageDelay = 0.0f;
+				inAttack = false;
+			}
+		}
+
 		if (inCooldown)
 		{
 			cooldown -= Time.deltaTime;
@@ -65,6 +80,28 @@ public class CharacterAttackComponent : MonoBehaviour
 		}
 	}
 
+	private void ApplyDamage()
+	{
+		var halfSize = character.Stats.AttackRange * 0.5f;
+		var center = transform.position + transform.up + transform.forward * halfSize;
+		var size = new Vector3(halfSize, halfSize, halfSize);
+
+		var colliders = Physics.OverlapBox(center, size);
+		if (colliders == null || colliders.Length == 0) return;
+
+		foreach (var collider in colliders)
+		{
+			if (collider.gameObject != gameObject) //if is not themself
+			{
+				var healthComponent = collider.GetComponentInParent<CharacterHealthComponent>();
+				if (healthComponent != null)
+				{
+					healthComponent.TakeDamage(character.Stats.Damage);
+				}
+			}
+		}
+	}
+
 	public void Attack()
 	{
 		if (!CanAttack) return;
@@ -74,11 +111,22 @@ public class CharacterAttackComponent : MonoBehaviour
 
 		this.comboDelay = character.Stats.AttackComboDelay;
 
+		damageDelay = cooldownMax * character.Stats.DamageDelay;
+
 		combo++;
 
-		inCooldown = true;
 		inCombo = true;
+		inAttack = true;
+		inCooldown = true;
 
 		inComboCallback.Invoke();
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (character == null) return;
+
+		var attackRange = character.Stats.AttackRange;
+		Gizmos.DrawWireCube(transform.position + transform.up + transform.forward * attackRange * 0.5f, new Vector3(attackRange, attackRange, attackRange));
 	}
 }
