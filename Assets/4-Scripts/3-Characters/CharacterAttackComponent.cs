@@ -49,7 +49,8 @@ public class CharacterAttackComponent : MonoBehaviour
 
 			inCooldownCallback.Invoke();
 		}
-		else if (inCombo)
+
+		if (!inCooldown && inCombo)
 		{
 			comboDelay -= Time.deltaTime;
 
