@@ -15,8 +15,8 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Character character = null;
 	[SerializeField] private GameState gameState = GameState.None;
+    [SerializeField] private PlayerController playerController = null;
 
 	private UnityAction gameStateChangeCallback = () => { /*Debug.Log("GameStateChangeCallback);*/ };
 
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (gameState != GameState.InGame) return;
 
-		if (character.State == CharacterState.Dead)
+		if (playerController.Character.State == CharacterState.Dead)
 		{
 			gameState = GameState.InDeath;
 
@@ -53,19 +53,19 @@ public class GameManager : MonoBehaviour
 		//Debug player health
 		if (Keyboard.current.numpadPlusKey.wasPressedThisFrame)
 		{
-			character.HealthComponent.TakeHeal(1);
+			playerController.HealthComponent.TakeHeal(1);
 		}
 		else if (Keyboard.current.numpadMinusKey.wasPressedThisFrame)
 		{
-			character.HealthComponent.TakeDamege(1);
+			playerController.HealthComponent.TakeDamege(1);
 		}
 	}
 
 
 	private static GameManager instance = null;
 
-	public static Character Player => instance.character;
 	public static GameState GameState => instance.gameState;
+	public static PlayerController PlayerController => instance.playerController;
 	public static UnityAction GameStateChangeCallback { get => instance.gameStateChangeCallback; set => instance.gameStateChangeCallback = value; }
 
 	public static void RestartGame()

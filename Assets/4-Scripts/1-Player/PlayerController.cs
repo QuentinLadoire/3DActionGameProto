@@ -9,10 +9,16 @@ public class PlayerController : MonoBehaviour
 	private InputAction attackAction = null;
 
 	private Character character = null;
-	private CharacterDodgeComponent playerDodgeComponent = null;
-	private CharacterAttackComponent playerAttackComponent = null;
-	private CharacterHealthComponent playerHealthComponent = null;
-	private CharacterMovementComponent playerMovementComponent = null;
+	private CharacterDodgeComponent dodgeComponent = null;
+	private CharacterAttackComponent attackComponent = null;
+	private CharacterHealthComponent healthComponent = null;
+	private CharacterMovementComponent movementComponent = null;
+
+	public Character Character => character;
+	public CharacterDodgeComponent DodgeComponent => dodgeComponent;
+	public CharacterAttackComponent AttackComponent => attackComponent;
+	public CharacterHealthComponent HealthComponent => healthComponent;
+	public CharacterMovementComponent MovementComponent => movementComponent;
 
 	private void Awake()
 	{
@@ -25,10 +31,10 @@ public class PlayerController : MonoBehaviour
 		}
 
 		character = GetComponent<Character>();
-		playerDodgeComponent = GetComponent<CharacterDodgeComponent>();
-		playerAttackComponent = GetComponent<CharacterAttackComponent>();
-		playerHealthComponent = GetComponent<CharacterHealthComponent>();
-		playerMovementComponent = GetComponent<CharacterMovementComponent>();
+		dodgeComponent = GetComponent<CharacterDodgeComponent>();
+		attackComponent = GetComponent<CharacterAttackComponent>();
+		healthComponent = GetComponent<CharacterHealthComponent>();
+		movementComponent = GetComponent<CharacterMovementComponent>();
 	}
 	private void Update()
 	{
@@ -37,20 +43,20 @@ public class PlayerController : MonoBehaviour
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		
-		if (playerHealthComponent.IsDead && character.State != CharacterState.Dead)
+		if (healthComponent.IsDead && character.State != CharacterState.Dead)
 		{
 			character.State = CharacterState.Dead;
 			UpdateAnimatorState();
 		}
-		else if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
+		else if (dodgeComponent.CanDodge && dodgeAction.triggered)
 		{
 			Dodge(direction);
 		}
-		else if (playerAttackComponent.CanAttack && attackAction.triggered)
+		else if (attackComponent.CanAttack && attackAction.triggered)
 		{
 			Attack();
 		}
-		else if (!playerDodgeComponent.HasDodge && !playerAttackComponent.HasAttack)
+		else if (!dodgeComponent.HasDodge && !attackComponent.HasAttack)
 		{
 			Move(direction);
 		}
@@ -58,9 +64,9 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack()
 	{
-		playerMovementComponent.Stop();
+		movementComponent.Stop();
 
-		playerAttackComponent.Attack();
+		attackComponent.Attack();
 
 		character.State = CharacterState.Attack;
 
@@ -69,7 +75,7 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Move(Vector3 direction)
 	{
-		playerMovementComponent.Move(direction);
+		movementComponent.Move(direction);
 
 		if (direction != Vector3.zero)
 			character.State = CharacterState.Move;
@@ -80,12 +86,12 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Dodge(Vector3 direction)
 	{
-		playerMovementComponent.Stop();
+		movementComponent.Stop();
 
 		if (direction == Vector3.zero)
 			direction = transform.forward;
 
-		playerDodgeComponent.Dodge(direction);
+		dodgeComponent.Dodge(direction);
 
 		character.State = CharacterState.Dodge;
 		UpdateAnimatorState();
@@ -97,6 +103,6 @@ public class PlayerController : MonoBehaviour
 	}
 	private void UpdateAnimatorComboCount()
 	{
-		character.Animator.SetInteger("ComboCount", playerAttackComponent.Combo);
+		character.Animator.SetInteger("ComboCount", attackComponent.Combo);
 	}
 }

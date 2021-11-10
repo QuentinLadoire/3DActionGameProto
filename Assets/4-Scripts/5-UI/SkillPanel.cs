@@ -4,34 +4,34 @@ using UnityEngine;
 
 public class SkillPanel : MonoBehaviour
 {
-    [SerializeField] private Character character = null;
+    [SerializeField] private PlayerController playerController = null;
 	[SerializeField] private ComboBar comboBar = null;
     [SerializeField] private SkillIcon attackIcon = null;
     [SerializeField] private SkillIcon dodgeIcon = null;
 
 	private void Start()
 	{
-		character.DodgeComponent.inCooldownCallback += InCooldownDodgeCallback;
-		character.AttackComponent.inCooldownCallback += InCooldownAttackCallback;
-		character.AttackComponent.inComboCallback += InComboAttackCallback;
+		playerController.DodgeComponent.inCooldownCallback += InCooldownDodgeCallback;
+		playerController.AttackComponent.inCooldownCallback += InCooldownAttackCallback;
+		playerController.AttackComponent.inComboCallback += InComboAttackCallback;
 	}
 	private void OnDestroy()
 	{
-		character.DodgeComponent.inCooldownCallback -= InCooldownDodgeCallback;
-		character.AttackComponent.inCooldownCallback -= InCooldownAttackCallback;
-		character.AttackComponent.inComboCallback -= InComboAttackCallback;
+		playerController.DodgeComponent.inCooldownCallback -= InCooldownDodgeCallback;
+		playerController.AttackComponent.inCooldownCallback -= InCooldownAttackCallback;
+		playerController.AttackComponent.inComboCallback -= InComboAttackCallback;
 	}
 
 	private void InCooldownDodgeCallback()
 	{
-		dodgeIcon.SetCooldown(character.DodgeComponent.Cooldown, character.DodgeComponent.CooldownInPercent);
+		dodgeIcon.SetCooldown(playerController.DodgeComponent.Cooldown, playerController.DodgeComponent.CooldownInPercent);
 	}
 	private void InCooldownAttackCallback()
 	{
-		attackIcon.SetCooldown(character.AttackComponent.Cooldown, character.AttackComponent.CooldownInPercent);
+		attackIcon.SetCooldown(playerController.AttackComponent.Cooldown, playerController.AttackComponent.CooldownInPercent);
 	}
 	private void InComboAttackCallback()
 	{
-		comboBar.SetGauge(character.AttackComponent.ComboDelayInPercent);
+		comboBar.SetGauge(playerController.AttackComponent.ComboDelayInPercent);
 	}
 }
