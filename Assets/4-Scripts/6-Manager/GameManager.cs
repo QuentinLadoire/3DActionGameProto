@@ -15,6 +15,7 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+	[SerializeField] private Camera topdownCamera = null;
 	[SerializeField] private GameState gameState = GameState.None;
     [SerializeField] private PlayerController playerController = null;
 
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
 	private static GameManager instance = null;
 
 	public static GameState GameState => instance.gameState;
+	public static Camera TopdownCamera => instance.topdownCamera;
 	public static PlayerController PlayerController => instance.playerController;
 	public static UnityAction GameStateChangeCallback { get => instance.gameStateChangeCallback; set => instance.gameStateChangeCallback = value; }
 
