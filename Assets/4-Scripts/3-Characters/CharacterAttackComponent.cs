@@ -91,13 +91,10 @@ public class CharacterAttackComponent : MonoBehaviour
 
 		foreach (var collider in colliders)
 		{
-			if (collider.gameObject != gameObject) //if is not themself
+			var healthComponent = collider.GetComponentInParent<CharacterHealthComponent>();
+			if (healthComponent != null && healthComponent.gameObject != gameObject)
 			{
-				var healthComponent = collider.GetComponentInParent<CharacterHealthComponent>();
-				if (healthComponent != null)
-				{
-					healthComponent.TakeDamage(character.Stats.Damage);
-				}
+				healthComponent.TakeDamage(character.Stats.Damage);
 			}
 		}
 	}
