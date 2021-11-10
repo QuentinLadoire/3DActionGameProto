@@ -2,33 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamFollowComponent : MonoBehaviour
+public class CharacterCameraFollowComponent : MonoBehaviour
 {
 	[SerializeField] private Vector3 idlePosition = Vector3.zero;
 	[SerializeField] private Vector3 movePosition = new Vector3(0.0f, 0.0f, 2.0f);
 
-    private Player player = null;
+    private Character character = null;
 
 	private void Awake()
 	{
-		player = GetComponentInParent<Player>();
+		character = GetComponentInParent<Character>();
 	}
 	private void Update()
 	{
-		switch (player.State)
+		switch (character.State)
 		{
-			case PlayerState.Idle:
-			case PlayerState.Attack:
-			case PlayerState.Dead:
+			case CharacterState.Idle:
+			case CharacterState.Attack:
+			case CharacterState.Dead:
 				IdlePosition();
 				break;
 
-			case PlayerState.Move:
-			case PlayerState.Dodge:
+			case CharacterState.Move:
+			case CharacterState.Dodge:
 				MovePosition();
 				break;
 
-			case PlayerState.None:
+			case CharacterState.None:
 			default:
 				DefaultPosition();
 				break;

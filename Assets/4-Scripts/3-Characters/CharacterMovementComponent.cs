@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementComponent : MonoBehaviour
+public class CharacterMovementComponent : MonoBehaviour
 {
-	private Player player = null;
+	private Character character = null;
 	private new Rigidbody rigidbody = null;
 
 	private bool move = false;
@@ -12,14 +12,14 @@ public class PlayerMovementComponent : MonoBehaviour
 
 	private void Awake()
 	{
-		player = GetComponent<Player>();
+		character = GetComponent<Character>();
 		rigidbody = GetComponent<Rigidbody>();
 	}
 	private void FixedUpdate()
 	{
 		if (!move) return;
 
-		var desiredPosition = transform.position + direction * player.Stats.MovementSpeed * Time.fixedDeltaTime;
+		var desiredPosition = transform.position + direction * character.Stats.MovementSpeed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(desiredPosition);
 	}
 	private void Update()

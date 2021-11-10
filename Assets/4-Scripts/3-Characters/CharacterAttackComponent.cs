@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerAttackComponent : MonoBehaviour
+public class CharacterAttackComponent : MonoBehaviour
 {
-	private Player player = null;
+	private Character character = null;
 
 	private float cooldown = 0.0f;
 	private float cooldownMax = 0.0f;
@@ -27,14 +27,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
 	public int Combo => combo;
 	public float ComboDelay => comboDelay;
-	public float ComboDelayInPercent => comboDelay / player.Stats.AttackComboDelay;
+	public float ComboDelayInPercent => comboDelay / character.Stats.AttackComboDelay;
 
 	public UnityAction inComboCallback = () => { /*Debug.Log("InComboCallback");*/ };
 	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
 
 	private void Awake()
 	{
-		player = GetComponent<Player>();
+		character = GetComponent<Character>();
 	}
 	private void Update()
 	{
@@ -53,7 +53,7 @@ public class PlayerAttackComponent : MonoBehaviour
 		{
 			comboDelay -= Time.deltaTime;
 
-			if (comboDelay <= 0.0f || combo == player.Stats.AttackComboMax)
+			if (comboDelay <= 0.0f || combo == character.Stats.AttackComboMax)
 			{
 				comboDelay = 0.0f;
 				combo = 0;
@@ -68,10 +68,10 @@ public class PlayerAttackComponent : MonoBehaviour
 	{
 		if (!CanAttack) return;
 
-		cooldownMax = 1 / player.Stats.AttackSpeed;
+		cooldownMax = 1 / character.Stats.AttackSpeed;
 		cooldown = cooldownMax;
 
-		this.comboDelay = player.Stats.AttackComboDelay;
+		this.comboDelay = character.Stats.AttackComboDelay;
 
 		combo++;
 

@@ -8,11 +8,11 @@ public class PlayerController : MonoBehaviour
 	private InputAction dodgeAction = null;
 	private InputAction attackAction = null;
 
-	private Player player = null;
-	private PlayerDodgeComponent playerDodgeComponent = null;
-	private PlayerAttackComponent playerAttackComponent = null;
-	private PlayerHealthComponent playerHealthComponent = null;
-	private PlayerMovementComponent playerMovementComponent = null;
+	private Character character = null;
+	private CharacterDodgeComponent playerDodgeComponent = null;
+	private CharacterAttackComponent playerAttackComponent = null;
+	private CharacterHealthComponent playerHealthComponent = null;
+	private CharacterMovementComponent playerMovementComponent = null;
 
 	private void Awake()
 	{
@@ -24,22 +24,22 @@ public class PlayerController : MonoBehaviour
 			attackAction = playerInput.actions["Attack"];
 		}
 
-		player = GetComponent<Player>();
-		playerDodgeComponent = GetComponent<PlayerDodgeComponent>();
-		playerAttackComponent = GetComponent<PlayerAttackComponent>();
-		playerHealthComponent = GetComponent<PlayerHealthComponent>();
-		playerMovementComponent = GetComponent<PlayerMovementComponent>();
+		character = GetComponent<Character>();
+		playerDodgeComponent = GetComponent<CharacterDodgeComponent>();
+		playerAttackComponent = GetComponent<CharacterAttackComponent>();
+		playerHealthComponent = GetComponent<CharacterHealthComponent>();
+		playerMovementComponent = GetComponent<CharacterMovementComponent>();
 	}
 	private void Update()
 	{
-		if (player.State == PlayerState.Dead) return;
+		if (character.State == CharacterState.Dead) return;
 
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		
-		if (playerHealthComponent.IsDead && player.State != PlayerState.Dead)
+		if (playerHealthComponent.IsDead && character.State != CharacterState.Dead)
 		{
-			player.State = PlayerState.Dead;
+			character.State = CharacterState.Dead;
 			UpdateAnimatorState();
 		}
 		else if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
 		playerAttackComponent.Attack();
 
-		player.State = PlayerState.Attack;
+		character.State = CharacterState.Attack;
 
 		UpdateAnimatorState();
 		UpdateAnimatorComboCount();
@@ -72,9 +72,9 @@ public class PlayerController : MonoBehaviour
 		playerMovementComponent.Move(direction);
 
 		if (direction != Vector3.zero)
-			player.State = PlayerState.Move;
+			character.State = CharacterState.Move;
 		else
-			player.State = PlayerState.Idle;
+			character.State = CharacterState.Idle;
 
 		UpdateAnimatorState();
 	}
@@ -87,16 +87,16 @@ public class PlayerController : MonoBehaviour
 
 		playerDodgeComponent.Dodge(direction);
 
-		player.State = PlayerState.Dodge;
+		character.State = CharacterState.Dodge;
 		UpdateAnimatorState();
 	}
 
 	private void UpdateAnimatorState()
 	{
-		player.Animator.SetInteger("PlayerState", (int)player.State);
+		character.Animator.SetInteger("PlayerState", (int)character.State);
 	}
 	private void UpdateAnimatorComboCount()
 	{
-		player.Animator.SetInteger("ComboCount", playerAttackComponent.Combo);
+		character.Animator.SetInteger("ComboCount", playerAttackComponent.Combo);
 	}
 }

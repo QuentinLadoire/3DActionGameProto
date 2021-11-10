@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerHealthComponent : MonoBehaviour
+public class CharacterHealthComponent : MonoBehaviour
 {
     private int health = 0;
 
-	private Player player = null;
+	private Character character = null;
 
 	public int Health => health;
-	public int HealthMax => player.Stats.HealthMax;
-	public float HealthInPercent => health / (float)player.Stats.HealthMax;
+	public int HealthMax => character.Stats.HealthMax;
+	public float HealthInPercent => health / (float)character.Stats.HealthMax;
 
 	public bool IsDead => health == 0;
 	public bool IsAlive => health != 0;
@@ -21,9 +21,9 @@ public class PlayerHealthComponent : MonoBehaviour
 
 	private void Awake()
 	{
-		player = GetComponent<Player>();
+		character = GetComponent<Character>();
 
-		health = player.Stats.HealthMax;
+		health = character.Stats.HealthMax;
 	}
 
 	public void TakeDamege(int damage)
@@ -37,8 +37,8 @@ public class PlayerHealthComponent : MonoBehaviour
 	public void TakeHeal(int heal)
 	{
 		health += heal;
-		if (health > player.Stats.HealthMax)
-			health = player.Stats.HealthMax;
+		if (health > character.Stats.HealthMax)
+			health = character.Stats.HealthMax;
 
 		takeHealCallback.Invoke();
 	}
