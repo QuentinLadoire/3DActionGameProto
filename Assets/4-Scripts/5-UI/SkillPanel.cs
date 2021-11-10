@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class SkillPanel : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController = null;
 	[SerializeField] private ComboBar comboBar = null;
     [SerializeField] private SkillIcon attackIcon = null;
     [SerializeField] private SkillIcon dodgeIcon = null;
 
+    private PlayerController playerController = null;
+
 	private void Start()
 	{
+		playerController = GameManager.PlayerController;
+
 		playerController.DodgeComponent.inCooldownCallback += InCooldownDodgeCallback;
 		playerController.AttackComponent.inCooldownCallback += InCooldownAttackCallback;
 		playerController.AttackComponent.inComboCallback += InComboAttackCallback;

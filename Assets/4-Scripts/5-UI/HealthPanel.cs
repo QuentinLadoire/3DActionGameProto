@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class HealthPanel : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController = null;
     [SerializeField] private Image gaugeImage = null;
     [SerializeField] private Text healthText = null;
 
+	private PlayerController playerController = null;
+
 	private void Start()
 	{
+		playerController = GameManager.PlayerController;
+
 		playerController.HealthComponent.takeHealCallback += TakeHealDamageCallback;
 		playerController.HealthComponent.takeDamegeCallback += TakeHealDamageCallback;
 
