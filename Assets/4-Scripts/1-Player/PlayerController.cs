@@ -32,12 +32,15 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (player.State == PlayerState.Dead) return;
+
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
 		
 		if (playerHealthComponent.IsDead && player.State != PlayerState.Dead)
 		{
 			player.State = PlayerState.Dead;
+			UpdateAnimatorState();
 		}
 		else if (playerDodgeComponent.CanDodge && dodgeAction.triggered)
 		{
