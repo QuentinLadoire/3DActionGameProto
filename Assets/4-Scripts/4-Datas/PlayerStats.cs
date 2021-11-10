@@ -18,6 +18,7 @@ public class PlayerStats : ScriptableObject
 	[SerializeField] private int attackComboMax = 3;
 	[SerializeField] private float attackSpeed = 0.5f;
 	[SerializeField] private float attackRange = 2.0f;
+	[SerializeField] private float damageDelay = 0.5f;
 	[SerializeField] private float attackComboDelay = 0.6f;
 
 
@@ -32,5 +33,6 @@ public class PlayerStats : ScriptableObject
 	public int AttackComboMax => attackComboMax;
 	public float AttackSpeed => attackSpeed;
 	public float AttackRange => attackRange;
+	public float DamageDelay => damageDelay;
 	public float AttackComboDelay => attackComboDelay;
 }
