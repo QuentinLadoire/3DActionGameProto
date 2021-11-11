@@ -9,10 +9,10 @@ public class CharacterSensorComponent : MonoBehaviour
 	private float range = 15.0f;
 	private float halfFov = 45.0f;
 	private float sqrRange = 225.0f;
+	private float reactionDelay = 0.5f;
 
 	//Processing Variables
-	private float processDelay = 0.5f;
-	private float currentProcessDelay = 0.0f;
+	private float currentReactionDelay = 0.0f;
 
 	private bool hasTarget = false;
 	private bool hasLastTargetPosition = false;
@@ -36,12 +36,12 @@ public class CharacterSensorComponent : MonoBehaviour
 	}
 	private void Update()
 	{
-		currentProcessDelay -= Time.deltaTime;
-		if (currentProcessDelay <= 0.0f)
+		currentReactionDelay -= Time.deltaTime;
+		if (currentReactionDelay <= 0.0f)
 		{
 			Process();
 
-			currentProcessDelay = processDelay;
+			currentReactionDelay = reactionDelay;
 		}
 	}
 
@@ -78,10 +78,11 @@ public class CharacterSensorComponent : MonoBehaviour
 		}
 	}
 
-	public void Init(float fov, float range)
+	public void Init(float fov, float range, float reactionDelay)
 	{
 		this.fov = fov;
 		this.range = range;
+		this.reactionDelay = reactionDelay;
 
 		halfFov = fov * 0.5f;
 		sqrRange = range * range;

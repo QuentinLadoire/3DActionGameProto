@@ -23,6 +23,7 @@ public class EnemyData : ScriptableObject
 	[Header("Sensor Component")]
 	[SerializeField] private float sensorFov = 90.0f;
 	[SerializeField] private float sensorRange = 15.0f;
+	[SerializeField] private float sensorReactionDelay = 0.5f;
 
 	[Header("Despawn Component")]
 	[SerializeField] private float despawnDelayMax = 2.0f;
@@ -43,6 +44,7 @@ public class EnemyData : ScriptableObject
 
 	public float SensorFov => sensorFov;
 	public float SensorRange => sensorRange;
+	public float SensorReactionDelay => sensorReactionDelay;
 
 	public float DespawnDelayMax => despawnDelayMax;
 	public float DespawnScalingDurationMax => despawnScalingDurationMax;

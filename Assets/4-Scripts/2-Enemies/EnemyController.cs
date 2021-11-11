@@ -28,8 +28,8 @@ public class EnemyController : MonoBehaviour
 
 		healthComponent.Init(data.HealthMax);
 		navMovementComponent.Init(data.MovementSpeed);
-		sensorComponent.Init(data.SensorFov, data.SensorRange);
 		despawnComponent.Init(data.DespawnDelayMax, data.DespawnScalingDurationMax);
+		sensorComponent.Init(data.SensorFov, data.SensorRange, data.SensorReactionDelay);
 		attackComponent.Init(data.AttackRange, data.AttackSpeed, data.AttackComboMax, data.AttackComboDelayMax, data.Damage, data.DamageDelayMax);
 	}
 	private void Update()
