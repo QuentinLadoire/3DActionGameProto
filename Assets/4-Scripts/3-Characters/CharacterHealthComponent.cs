@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class CharacterHealthComponent : MonoBehaviour
 {
+	private Character character = null;
+
 	//Parameters
 	private int healthMax = 0;
 
@@ -23,6 +25,11 @@ public class CharacterHealthComponent : MonoBehaviour
 	public UnityAction takeDamageCallback = () => { /*Debug.Log("TakeDamageCallback");*/ };
 	public UnityAction takeHealCallback = () => { /*Debug.Log("TakeHealCallback");*/ };
 
+	private void Awake()
+	{
+		character = GetComponent<Character>();
+	}
+
 	public void Init(int healthMax)
 	{
 		this.healthMax = healthMax;
@@ -30,6 +37,8 @@ public class CharacterHealthComponent : MonoBehaviour
 	}
 	public void TakeDamage(int damage)
 	{
+		if (character.State == CharacterState.Dodge) return;
+
 		health -= damage;
 		if (health < 0)
 			health = 0;
