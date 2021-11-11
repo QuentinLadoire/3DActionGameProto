@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
 	private CharacterSensorComponent sensorComponent = null;
 	private CharacterAttackComponent attackComponent = null;
 	private CharacterHealthComponent healthComponent = null;
+	private CharacterDespawnComponent despawnComponent = null;
 	private CharacterNavMovementComponent navMovementComponent = null;
 
 	private Vector3 spawnPosition = Vector3.zero;
@@ -20,6 +21,7 @@ public class EnemyController : MonoBehaviour
 		sensorComponent = GetComponent<CharacterSensorComponent>();
 		attackComponent = GetComponent<CharacterAttackComponent>();
 		healthComponent = GetComponent<CharacterHealthComponent>();
+		despawnComponent = GetComponent<CharacterDespawnComponent>();
 		navMovementComponent = GetComponent<CharacterNavMovementComponent>();
 
 		spawnPosition = transform.position;
@@ -27,6 +29,7 @@ public class EnemyController : MonoBehaviour
 		healthComponent.Init(data.HealthMax);
 		navMovementComponent.Init(data.MovementSpeed);
 		sensorComponent.Init(data.SensorFov, data.SensorRange);
+		despawnComponent.Init(data.DespawnDelayMax, data.DespawnScalingDurationMax);
 		attackComponent.Init(data.AttackRange, data.AttackSpeed, data.AttackComboMax, data.AttackComboDelayMax, data.Damage, data.DamageDelayMax);
 	}
 	private void Update()
@@ -35,8 +38,8 @@ public class EnemyController : MonoBehaviour
 
 		if (healthComponent.IsDead && character.State != CharacterState.Dead)
 		{
-			character.State = CharacterState.Dead;
-			UpdateAnimatorState();
+
+			Death();
 
 			return;
 		}
@@ -87,6 +90,13 @@ public class EnemyController : MonoBehaviour
 		navMovementComponent.Stop();
 
 		character.State = CharacterState.Idle;
+		UpdateAnimatorState();
+	}
+	private void Death()
+	{
+		despawnComponent.Despawn();
+
+		character.State = CharacterState.Dead;
 		UpdateAnimatorState();
 	}
 	private void Attack()

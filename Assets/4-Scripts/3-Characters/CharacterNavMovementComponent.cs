@@ -7,6 +7,8 @@ public class CharacterNavMovementComponent : MonoBehaviour
 {
     private NavMeshAgent agent = null;
 
+	private float speed = 0.0f;
+
 	private void Awake()
 	{
 		agent = GetComponent<NavMeshAgent>();
@@ -14,7 +16,7 @@ public class CharacterNavMovementComponent : MonoBehaviour
 
 	public void Init(float speed)
 	{
-		agent.speed = speed;
+		this.speed = speed;
 	}
 	public void Stop()
 	{
@@ -22,6 +24,7 @@ public class CharacterNavMovementComponent : MonoBehaviour
 	}
 	public void MoveTo(Vector3 destination)
 	{
+		agent.speed = speed;
 		agent.SetDestination(destination);
 
 		agent.isStopped = false;
