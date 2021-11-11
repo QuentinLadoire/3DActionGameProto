@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
 			character.State = CharacterState.Idle;
 
 		SetAnimatorState();
-		SetAnimatorMoveMultiplier();
+		SetAnimatorMoveMultiplier(direction.magnitude);
 	}
 	private void Dodge(Vector3 direction)
 	{
@@ -123,11 +123,6 @@ public class PlayerController : MonoBehaviour
 		character.Animator.SetInteger("ComboCount", attackComponent.Combo);
 	}
 
-	private void SetAnimatorMoveMultiplier()
-	{
-		var value = 0.5f * data.MovementSpeed;
-		character.Animator.SetFloat("MoveMultiplier", value);
-	}
 	private void SetAnimatorDodgeMultiplier()
 	{
 		var value = 0.5f * (data.DodgeSpeed / data.DodgeDistance);
@@ -137,5 +132,10 @@ public class PlayerController : MonoBehaviour
 	{
 		var value = 0.5f * data.AttackSpeed;
 		character.Animator.SetFloat("AttackMultiplier", value);
+	}
+	private void SetAnimatorMoveMultiplier(float inputMultiplier)
+	{
+		var value = 0.5f * (data.MovementSpeed / 2.0f) * inputMultiplier;
+		character.Animator.SetFloat("MoveMultiplier", value);
 	}
 }
