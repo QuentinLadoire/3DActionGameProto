@@ -77,7 +77,7 @@ public class CharacterAttackComponent : MonoBehaviour
 		var center = transform.position + transform.up + transform.forward * halfSize;
 		var size = new Vector3(halfSize, halfSize, halfSize);
 
-		var colliders = Physics.OverlapBox(center, size);
+		var colliders = Physics.OverlapBox(center, size, transform.rotation);
 		if (colliders == null || colliders.Length == 0) return;
 
 		foreach (var collider in colliders)
@@ -157,6 +157,8 @@ public class CharacterAttackComponent : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		Gizmos.DrawWireCube(transform.position + transform.up + transform.forward * attackRange * 0.5f, new Vector3(attackRange, attackRange, attackRange));
+		Gizmos.matrix = transform.localToWorldMatrix;
+		Gizmos.DrawWireCube(Vector3.up + Vector3.forward * attackRange * 0.5f, new Vector3(attackRange, attackRange, attackRange));
+		Gizmos.matrix = Matrix4x4.identity;
 	}
 }
