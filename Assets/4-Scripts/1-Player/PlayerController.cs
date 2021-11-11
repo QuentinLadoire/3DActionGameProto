@@ -37,9 +37,7 @@ public class PlayerController : MonoBehaviour
 		attackComponent = GetComponent<CharacterAttackComponent>();
 		healthComponent = GetComponent<CharacterHealthComponent>();
 		movementComponent = GetComponent<CharacterMovementComponent>();
-	}
-	private void Start()
-	{
+
 		healthComponent.Init(data.HealthMax);
 		movementComponent.Init(data.MovementSpeed);
 		dodgeComponent.Init(data.DodgeSpeed, data.DodgeDistance, data.DodgeCooldown);

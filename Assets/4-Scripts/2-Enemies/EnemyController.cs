@@ -21,9 +21,7 @@ public class EnemyController : MonoBehaviour
 		attackComponent = GetComponent<CharacterAttackComponent>();
 		healthComponent = GetComponent<CharacterHealthComponent>();
 		navMovementComponent = GetComponent<CharacterNavMovementComponent>();
-	}
-	private void Start()
-	{
+
 		spawnPosition = transform.position;
 
 		healthComponent.Init(data.HealthMax);
