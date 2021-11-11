@@ -60,16 +60,21 @@ public class CharacterSensorComponent : MonoBehaviour
 
 		target = null;
 
-		var direction = (player.transform.position - transform.position);
-		var sqrMagnitude = direction.sqrMagnitude;
+		var targetDirection = (player.transform.position - transform.position);
+		var sqrMagnitude = targetDirection.sqrMagnitude;
 		if (sqrMagnitude <= sqrRange) //In Range
 		{
-			var dot = Vector3.Dot(transform.forward, direction);
+			var dot = Vector3.Dot(transform.forward, targetDirection);
 			if (dot >= 0.0f) //In Front
 			{
-				var angle = Vector3.Angle(transform.forward, direction);
+				var angle = Vector3.Angle(transform.forward, targetDirection);
 				if (angle <= halfFov) //In Fov
 				{
+					RaycastHit hit;
+					var origin = transform.position + transform.up * 1.5f;
+					if (Physics.Raycast(origin, targetDirection, out hit, range) && hit.collider.tag != "Player")
+						return;
+
 					target = player.gameObject;
 
 					hasTarget = true;
