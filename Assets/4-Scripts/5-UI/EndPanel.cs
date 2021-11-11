@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class DeathPanel : MonoBehaviour
+public class EndPanel : MonoBehaviour
 {
+	[SerializeField] private Text titleText = null;
+
+	public void SetText(string title)
+	{
+		titleText.text = title;
+	}
+
     public void OnRestartButtonClick()
 	{
 		GameManager.RestartGame();

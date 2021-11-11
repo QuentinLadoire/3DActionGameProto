@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameplayCanvas : MonoBehaviour
 {
-    [SerializeField] private GameObject deathPanel = null;
+    [SerializeField] private EndPanel endPanel = null;
 
 	private void Start()
 	{
@@ -19,11 +19,17 @@ public class GameplayCanvas : MonoBehaviour
 	{
 		if (GameManager.GameState == GameState.InGame)
 		{
-			deathPanel.SetActive(false);
+			endPanel.gameObject.SetActive(false);
 		}
 		else if (GameManager.GameState == GameState.InDeath)
 		{
-			deathPanel.SetActive(true);
+			endPanel.SetText("GameOver");
+			endPanel.gameObject.SetActive(true);
+		}
+		else if (GameManager.GameState == GameState.InVictory)
+		{
+			endPanel.SetText("Victory !!!");
+			endPanel.gameObject.SetActive(true);
 		}
 	}
 }
