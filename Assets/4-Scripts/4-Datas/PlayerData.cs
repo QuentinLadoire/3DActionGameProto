@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewEntityStats", menuName = "Data/Stats/EntityStats")]
-public class PlayerStats : ScriptableObject
+[CreateAssetMenu(fileName = "NewPlayerData", menuName = "Data/PlayerData")]
+public class PlayerData : ScriptableObject
 {
 	[Header("Health Stats")]
 	[SerializeField] private int healthMax = 10;
@@ -35,8 +35,8 @@ public class PlayerStats : ScriptableObject
 	public int AttackComboMax => attackComboMax;
 	public float AttackSpeed => attackSpeed;
 	public float AttackRange => attackRange;
-	public float AttackComboDelay => attackComboDelay;
+	public float AttackComboDelayMax => attackComboDelay;
 
 	public int Damage => damage;
-	public float DamageDelay => damageDelay;
+	public float DamageDelayMax => damageDelay;
 }

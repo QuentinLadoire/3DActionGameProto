@@ -5,8 +5,17 @@ using UnityEngine.Events;
 
 public class CharacterAttackComponent : MonoBehaviour
 {
-	private Character character = null;
+	//Parameters
+	private int damage = 0;
+	private float damageDelayMax = 0.0f;
 
+	private float attackRange = 0.0f;
+	private float attackSpeed = 0.0f;
+
+	private int comboMax = 0;
+	private float comboDelayMax = 0.0f;
+
+	//Processing Variables
 	private float damageDelay = 0.0f;
 
 	private float cooldown = 0.0f;
@@ -19,6 +28,7 @@ public class CharacterAttackComponent : MonoBehaviour
 	private bool inAttack = false;
 	private bool inCooldown = false;
 
+	//Accessors
 	public bool HasAttack => inCooldown;
 	public bool CanAttack => !inCooldown;
 
@@ -30,16 +40,57 @@ public class CharacterAttackComponent : MonoBehaviour
 
 	public int Combo => combo;
 	public float ComboDelay => comboDelay;
-	public float ComboDelayInPercent => comboDelay / character.Stats.AttackComboDelay;
+	public float ComboDelayInPercent => comboDelay / comboDelayMax;
 
+	//Callbacks
 	public UnityAction inComboCallback = () => { /*Debug.Log("InComboCallback");*/ };
 	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
 
-	private void Awake()
-	{
-		character = GetComponent<Character>();
-	}
 	private void Update()
+	{
+		UpdateDamage();
+
+		UpdateCooldown();
+
+		UpdateCombo();
+	}
+
+	private void ResetProcess()
+	{
+		cooldownMax = 1 / attackSpeed;
+		cooldown = cooldownMax;
+
+		damageDelay = cooldownMax * damageDelayMax;
+
+		comboDelay = comboDelayMax;
+
+		inCombo = true;
+		inAttack = true;
+		inCooldown = true;
+
+		inComboCallback.Invoke();
+		inCooldownCallback.Invoke();
+	}
+	private void ApplyDamage()
+	{
+		var halfSize = attackRange * 0.5f;
+		var center = transform.position + transform.up + transform.forward * halfSize;
+		var size = new Vector3(halfSize, halfSize, halfSize);
+
+		var colliders = Physics.OverlapBox(center, size);
+		if (colliders == null || colliders.Length == 0) return;
+
+		foreach (var collider in colliders)
+		{
+			var healthComponent = collider.GetComponentInParent<CharacterHealthComponent>();
+			if (healthComponent != null && healthComponent.gameObject != gameObject)
+			{
+				healthComponent.TakeDamage(damage);
+			}
+		}
+	}
+
+	private void UpdateDamage()
 	{
 		if (inAttack)
 		{
@@ -52,7 +103,9 @@ public class CharacterAttackComponent : MonoBehaviour
 				inAttack = false;
 			}
 		}
-
+	}
+	private void UpdateCooldown()
+	{
 		if (inCooldown)
 		{
 			cooldown -= Time.deltaTime;
@@ -64,12 +117,14 @@ public class CharacterAttackComponent : MonoBehaviour
 
 			inCooldownCallback.Invoke();
 		}
-
+	}
+	private void UpdateCombo()
+	{
 		if (!inCooldown && inCombo)
 		{
 			comboDelay -= Time.deltaTime;
 
-			if (comboDelay <= 0.0f || combo == character.Stats.AttackComboMax)
+			if (comboDelay <= 0.0f || combo == comboMax)
 			{
 				comboDelay = 0.0f;
 				combo = 0;
@@ -80,50 +135,28 @@ public class CharacterAttackComponent : MonoBehaviour
 		}
 	}
 
-	private void ApplyDamage()
+	public void Init(float attackRange, float attackSpeed, int comboMax, float comboDelayMax, int damage, float damageDelayMax)
 	{
-		var halfSize = character.Stats.AttackRange * 0.5f;
-		var center = transform.position + transform.up + transform.forward * halfSize;
-		var size = new Vector3(halfSize, halfSize, halfSize);
+		this.attackRange = attackRange;
+		this.attackSpeed = attackSpeed;
 
-		var colliders = Physics.OverlapBox(center, size);
-		if (colliders == null || colliders.Length == 0) return;
+		this.comboMax = comboMax;
+		this.comboDelayMax = comboDelayMax;
 
-		foreach (var collider in colliders)
-		{
-			var healthComponent = collider.GetComponentInParent<CharacterHealthComponent>();
-			if (healthComponent != null && healthComponent.gameObject != gameObject)
-			{
-				healthComponent.TakeDamage(character.Stats.Damage);
-			}
-		}
+		this.damage = damage;
+		this.damageDelayMax = damageDelayMax;
 	}
-
 	public void Attack()
 	{
 		if (!CanAttack) return;
 
-		cooldownMax = 1 / character.Stats.AttackSpeed;
-		cooldown = cooldownMax;
-
-		this.comboDelay = character.Stats.AttackComboDelay;
-
-		damageDelay = cooldownMax * character.Stats.DamageDelay;
+		ResetProcess();
 
 		combo++;
-
-		inCombo = true;
-		inAttack = true;
-		inCooldown = true;
-
-		inComboCallback.Invoke();
 	}
 
 	private void OnDrawGizmos()
 	{
-		if (character == null) return;
-
-		var attackRange = character.Stats.AttackRange;
 		Gizmos.DrawWireCube(transform.position + transform.up + transform.forward * attackRange * 0.5f, new Vector3(attackRange, attackRange, attackRange));
 	}
 }

@@ -9,15 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6326dbe3c93dc494e9552a301aff30d5, type: 3}
-  m_Name: EnemyStats
+  m_Script: {fileID: 11500000, guid: e8397235d3400a4499a38f5af7b7a3fa, type: 3}
+  m_Name: PlayerData
   m_EditorClassIdentifier: 
-  healthMax: 5
-  movementSpeed: 2.5
+  healthMax: 10
+  movementSpeed: 5
   dodgeSpeed: 10
-  dodgeDistance: 2
+  dodgeDistance: 4
   dodgeCooldown: 5
   attackComboMax: 3
-  attackSpeed: 1
+  attackSpeed: 1.5
   attackRange: 2
   attackComboDelay: 0.6
+  damage: 3
+  damageDelay: 0.5

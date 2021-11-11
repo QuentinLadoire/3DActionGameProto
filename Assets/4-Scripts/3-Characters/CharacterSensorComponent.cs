@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CharacterSensorComponent : MonoBehaviour
 {
+	//Parameters
 	private float fov = 90.0f;
-	private float radius = 15.0f;
+	private float range = 15.0f;
 	private float halfFov = 45.0f;
-	private float sqrRadius = 225.0f;
+	private float sqrRange = 225.0f;
 
+	//Processing Variables
 	private float processDelay = 0.5f;
 	private float currentProcessDelay = 0.0f;
 
@@ -18,6 +20,7 @@ public class CharacterSensorComponent : MonoBehaviour
 	private GameObject target = null;
 	private Vector3 lastTargetPosition = Vector3.zero;
 
+	//Accessors
 	public bool HasTarget => hasTarget;
 	public bool HasLastTargetPosition => hasLastTargetPosition;
 
@@ -27,7 +30,7 @@ public class CharacterSensorComponent : MonoBehaviour
 	private void Start()
 	{
 		halfFov = fov * 0.5f;
-		sqrRadius = radius * radius;
+		sqrRange = range * range;
 
 		lastTargetPosition = transform.position;
 	}
@@ -59,7 +62,7 @@ public class CharacterSensorComponent : MonoBehaviour
 
 		var direction = (player.transform.position - transform.position);
 		var sqrMagnitude = direction.sqrMagnitude;
-		if (sqrMagnitude <= sqrRadius) //In Range
+		if (sqrMagnitude <= sqrRange) //In Range
 		{
 			var dot = Vector3.Dot(transform.forward, direction);
 			if (dot >= 0.0f) //In Front
@@ -75,15 +78,24 @@ public class CharacterSensorComponent : MonoBehaviour
 		}
 	}
 
+	public void Init(float fov, float range)
+	{
+		this.fov = fov;
+		this.range = range;
+
+		halfFov = fov * 0.5f;
+		sqrRange = range * range;
+	}
+
 	private void OnDrawGizmos()
 	{
 		var from = Quaternion.AngleAxis(-halfFov, transform.up) * transform.forward;
 		var to = Quaternion.AngleAxis(halfFov, transform.up) * transform.forward;
 
-		Gizmos.DrawLine(transform.position, transform.position + from * radius);
-		Gizmos.DrawLine(transform.position, transform.position + to * radius);
+		Gizmos.DrawLine(transform.position, transform.position + from * range);
+		Gizmos.DrawLine(transform.position, transform.position + to * range);
 		#if UNITY_EDITOR
-		UnityEditor.Handles.DrawWireArc(transform.position, transform.up, from, fov, radius);
+		UnityEditor.Handles.DrawWireArc(transform.position, transform.up, from, fov, range);
 		#endif
 	}
 }

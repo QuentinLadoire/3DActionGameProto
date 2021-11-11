@@ -5,9 +5,14 @@ using UnityEngine.Events;
 
 public class CharacterDodgeComponent : MonoBehaviour
 {
-	private Character character = null;
 	private new Rigidbody rigidbody = null;
 
+	//Parameters
+	private float speed = 0.0f;
+	private float distance = 0.0f;
+	private float cooldownMax = 0.0f;
+
+	//Processing variables
 	private float duration = 0.0f;
 	private float cooldown = 0.0f;
 	private Vector3 direction = Vector3.zero;
@@ -15,28 +20,46 @@ public class CharacterDodgeComponent : MonoBehaviour
 	private bool hasDodge = false;
 	private bool inCooldown = false;
 
+	//Accessors
 	public bool HasDodge => hasDodge;
 	public bool InCooldown => inCooldown;
 	public bool CanDodge => !hasDodge && !inCooldown;
 
 	public float Cooldown => cooldown;
-	public float CooldownInPercent => cooldown / character.Stats.DodgeCooldown;
+	public float CooldownInPercent => cooldown / cooldownMax;
 
+	//Callbacks
 	public UnityAction inCooldownCallback = () => { /*Debug.Log("InCooldownCallback");*/ };
 
 	private void Awake()
 	{
-		character = GetComponent<Character>();
 		rigidbody = GetComponent<Rigidbody>();
 	}
 	private void FixedUpdate()
 	{
 		if (!hasDodge) return;
 
-		var newPosition = transform.position + direction * character.Stats.DodgeSpeed * Time.fixedDeltaTime;
+		var newPosition = transform.position + direction * speed * Time.fixedDeltaTime;
 		rigidbody.MovePosition(newPosition);
 	}
 	private void Update()
+	{
+		UpdateDuration();
+
+		UpdateCooldown();
+	}
+
+	private void ResetProcess(Vector3 newDirection)
+	{
+		duration = distance / speed;
+		cooldown = cooldownMax;
+		direction = newDirection;
+
+		hasDodge = true;
+		inCooldown = true;
+	}
+
+	private void UpdateDuration()
 	{
 		if (hasDodge)
 		{
@@ -47,7 +70,9 @@ public class CharacterDodgeComponent : MonoBehaviour
 				hasDodge = false;
 			}
 		}
-
+	}
+	private void UpdateCooldown()
+	{
 		if (inCooldown)
 		{
 			cooldown -= Time.deltaTime;
@@ -61,18 +86,18 @@ public class CharacterDodgeComponent : MonoBehaviour
 		}
 	}
 
+	public void Init(float speed, float distance, float cooldownMax)
+	{
+		this.speed = speed;
+		this.distance = distance;
+		this.cooldownMax = cooldownMax;
+	}
 	public void Dodge(Vector3 direction)
 	{
 		if (!CanDodge) return;
 
-		this.direction = direction;
-		this.duration = character.Stats.DodgeDistance / character.Stats.DodgeSpeed;
-
-		this.cooldown = character.Stats.DodgeCooldown;
+		ResetProcess(direction);
 
 		transform.forward = direction;
-
-		hasDodge = true;
-		inCooldown = true;
 	}
 }

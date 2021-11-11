@@ -12,11 +12,8 @@ public enum CharacterState
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private PlayerStats stats = null;
-
 	private Animator animator = null;
 
-	public PlayerStats Stats => stats;
 	public Animator Animator => animator;
 	public CharacterState State { get; set; } = CharacterState.None;
 

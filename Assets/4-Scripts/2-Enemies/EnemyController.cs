@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+	[SerializeField] private EnemyData data = null;
+
 	private Character character = null;
 	private CharacterSensorComponent sensorComponent = null;
 	private CharacterAttackComponent attackComponent = null;
@@ -23,6 +25,11 @@ public class EnemyController : MonoBehaviour
 	private void Start()
 	{
 		spawnPosition = transform.position;
+
+		healthComponent.Init(data.HealthMax);
+		navMovementComponent.Init(data.MovementSpeed);
+		sensorComponent.Init(data.SensorFov, data.SensorRange);
+		attackComponent.Init(data.AttackRange, data.AttackSpeed, data.AttackComboMax, data.AttackComboDelayMax, data.Damage, data.DamageDelayMax);
 	}
 	private void Update()
 	{
@@ -108,7 +115,7 @@ public class EnemyController : MonoBehaviour
 		var targetPosition = sensorComponent.Target.transform.position;
 		var sqrMagnitude = (targetPosition - transform.position).sqrMagnitude;
 
-		return sqrMagnitude < character.Stats.AttackRange * character.Stats.AttackRange;
+		return sqrMagnitude < data.AttackRange * data.AttackRange;
 	}
 	private bool HasReachLastTargetPosition()
 	{

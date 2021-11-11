@@ -5,27 +5,29 @@ using UnityEngine.Events;
 
 public class CharacterHealthComponent : MonoBehaviour
 {
+	//Parameters
+	private int healthMax = 0;
+
+	//Processing Variables
     private int health = 0;
 
-	private Character character = null;
-
+	//Accessors
 	public int Health => health;
-	public int HealthMax => character.Stats.HealthMax;
-	public float HealthInPercent => health / (float)character.Stats.HealthMax;
+	public int HealthMax => healthMax;
+	public float HealthInPercent => health / (float)healthMax;
 
 	public bool IsDead => health == 0;
 	public bool IsAlive => health != 0;
 
+	//Callbacks
 	public UnityAction takeDamageCallback = () => { /*Debug.Log("TakeDamageCallback");*/ };
 	public UnityAction takeHealCallback = () => { /*Debug.Log("TakeHealCallback");*/ };
 
-	private void Awake()
+	public void Init(int healthMax)
 	{
-		character = GetComponent<Character>();
-
-		health = character.Stats.HealthMax;
+		this.healthMax = healthMax;
+		health = healthMax;
 	}
-
 	public void TakeDamage(int damage)
 	{
 		health -= damage;
@@ -37,8 +39,8 @@ public class CharacterHealthComponent : MonoBehaviour
 	public void TakeHeal(int heal)
 	{
 		health += heal;
-		if (health > character.Stats.HealthMax)
-			health = character.Stats.HealthMax;
+		if (health > healthMax)
+			health = healthMax;
 
 		takeHealCallback.Invoke();
 	}

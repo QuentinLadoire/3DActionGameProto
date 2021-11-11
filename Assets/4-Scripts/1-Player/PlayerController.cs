@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	[SerializeField] private PlayerData data = null;
+
     private PlayerInput playerInput = null;
 	private InputAction moveAction = null;
 	private InputAction dodgeAction = null;
@@ -35,6 +37,13 @@ public class PlayerController : MonoBehaviour
 		attackComponent = GetComponent<CharacterAttackComponent>();
 		healthComponent = GetComponent<CharacterHealthComponent>();
 		movementComponent = GetComponent<CharacterMovementComponent>();
+	}
+	private void Start()
+	{
+		healthComponent.Init(data.HealthMax);
+		movementComponent.Init(data.MovementSpeed);
+		dodgeComponent.Init(data.DodgeSpeed, data.DodgeDistance, data.DodgeCooldown);
+		attackComponent.Init(data.AttackRange, data.AttackSpeed, data.AttackComboMax, data.AttackComboDelayMax, data.Damage, data.DamageDelayMax);
 	}
 	private void Update()
 	{
