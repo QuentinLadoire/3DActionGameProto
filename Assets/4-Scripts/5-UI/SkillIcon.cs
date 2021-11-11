@@ -23,7 +23,7 @@ public class SkillIcon : MonoBehaviour
 			cooldownText.gameObject.SetActive(true);
 
 			if (time < 1.0f)
-				cooldownText.text = time.ToString();
+				cooldownText.text = time.ToString("F1");
 			else
 				cooldownText.text = ((int)time).ToString();
 		}
