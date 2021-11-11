@@ -10,7 +10,8 @@ public enum GameState
     None = -1,
     InMenu,
     InGame,
-    InDeath
+    InDeath,
+	InVictory
 }
 
 public class GameManager : MonoBehaviour
@@ -44,6 +45,12 @@ public class GameManager : MonoBehaviour
 		if (playerController.Character.State == CharacterState.Dead)
 		{
 			gameState = GameState.InDeath;
+
+			gameStateChangeCallback.Invoke();
+		}
+		if (EnemiesManager.EnemyCount == 0)
+		{
+			gameState = GameState.InVictory;
 
 			gameStateChangeCallback.Invoke();
 		}
