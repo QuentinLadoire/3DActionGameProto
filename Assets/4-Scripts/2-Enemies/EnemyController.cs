@@ -109,13 +109,16 @@ public class EnemyController : MonoBehaviour
 
 		UpdateAnimatorState();
 		UpdateAnimatorComboCount();
+		SetAnimatorAttackMultiplier();
 	}
 	private void MoveTo(Vector3 destination)
 	{
 		navMovementComponent.MoveTo(destination);
 
 		character.State = CharacterState.Move;
+
 		UpdateAnimatorState();
+		SetAnimatorMoveMultiplier();
 	}
 
 	private bool IsInAttackRange()
@@ -145,5 +148,16 @@ public class EnemyController : MonoBehaviour
 	private void UpdateAnimatorComboCount()
 	{
 		character.Animator.SetInteger("ComboCount", attackComponent.Combo);
+	}
+
+	private void SetAnimatorMoveMultiplier()
+	{
+		var value = 0.5f * data.MovementSpeed;
+		character.Animator.SetFloat("MoveMultiplier", value);
+	}
+	private void SetAnimatorAttackMultiplier()
+	{
+		var value = 0.5f * data.AttackSpeed;
+		character.Animator.SetFloat("AttackMultiplier", value);
 	}
 }

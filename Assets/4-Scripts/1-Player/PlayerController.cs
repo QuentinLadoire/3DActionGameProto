@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 		if (healthComponent.IsDead && character.State != CharacterState.Dead)
 		{
 			character.State = CharacterState.Dead;
-			UpdateAnimatorState();
+			SetAnimatorState();
 		}
 		else if (dodgeComponent.CanDodge && dodgeAction.triggered)
 		{
@@ -79,8 +79,9 @@ public class PlayerController : MonoBehaviour
 
 		character.State = CharacterState.Attack;
 
-		UpdateAnimatorState();
-		UpdateAnimatorComboCount();
+		SetAnimatorState();
+		SetAnimatorComboCount();
+		SetAnimatorAttackMultiplier();
 	}
 	private void Move(Vector3 direction)
 	{
@@ -93,7 +94,8 @@ public class PlayerController : MonoBehaviour
 		else
 			character.State = CharacterState.Idle;
 
-		UpdateAnimatorState();
+		SetAnimatorState();
+		SetAnimatorMoveMultiplier();
 	}
 	private void Dodge(Vector3 direction)
 	{
@@ -107,15 +109,33 @@ public class PlayerController : MonoBehaviour
 		dodgeComponent.Dodge(direction);
 
 		character.State = CharacterState.Dodge;
-		UpdateAnimatorState();
+
+		SetAnimatorState();
+		SetAnimatorDodgeMultiplier();
 	}
 
-	private void UpdateAnimatorState()
+	private void SetAnimatorState()
 	{
 		character.Animator.SetInteger("PlayerState", (int)character.State);
 	}
-	private void UpdateAnimatorComboCount()
+	private void SetAnimatorComboCount()
 	{
 		character.Animator.SetInteger("ComboCount", attackComponent.Combo);
+	}
+
+	private void SetAnimatorMoveMultiplier()
+	{
+		var value = 0.5f * data.MovementSpeed;
+		character.Animator.SetFloat("MoveMultiplier", value);
+	}
+	private void SetAnimatorDodgeMultiplier()
+	{
+		var value = 0.5f * (data.DodgeSpeed / data.DodgeDistance);
+		character.Animator.SetFloat("DodgeMultiplier", value);
+	}
+	private void SetAnimatorAttackMultiplier()
+	{
+		var value = 0.5f * data.AttackSpeed;
+		character.Animator.SetFloat("AttackMultiplier", value);
 	}
 }
