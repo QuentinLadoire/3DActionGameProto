@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
 		var moveInput = moveAction.ReadValue<Vector2>();
 		var direction = new Vector3(moveInput.x, 0.0f, moveInput.y);
-		
+
 		if (healthComponent.IsDead && character.State != CharacterState.Dead)
 		{
 			character.State = CharacterState.Dead;
@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Attack()
 	{
+		healthComponent.Invulnerable = false;
+
 		movementComponent.Stop();
 
 		attackComponent.Attack();
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour
 	}
 	private void Move(Vector3 direction)
 	{
+		healthComponent.Invulnerable = false;
+
 		movementComponent.Move(direction);
 
 		if (direction != Vector3.zero)
@@ -94,6 +98,8 @@ public class PlayerController : MonoBehaviour
 	private void Dodge(Vector3 direction)
 	{
 		movementComponent.Stop();
+
+		healthComponent.Invulnerable = true;
 
 		if (direction == Vector3.zero)
 			direction = transform.forward;

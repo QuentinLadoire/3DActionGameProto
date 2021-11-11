@@ -15,8 +15,12 @@ MonoBehaviour:
   healthMax: 10
   movementSpeed: 2.5
   attackComboMax: 3
-  attackSpeed: 1
+  attackSpeed: 2
   attackRange: 2
   attackComboDelay: 0.6
   damage: 1
   damageDelay: 0.5
+  sensorFov: 90
+  sensorRange: 15
+  despawnDelayMax: 2
+  despawnScalingDurationMax: 2

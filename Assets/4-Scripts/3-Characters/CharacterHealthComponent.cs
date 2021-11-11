@@ -5,13 +5,12 @@ using UnityEngine.Events;
 
 public class CharacterHealthComponent : MonoBehaviour
 {
-	private Character character = null;
-
 	//Parameters
 	private int healthMax = 0;
 
 	//Processing Variables
     private int health = 0;
+	private bool invulnerable = false;
 
 	//Accessors
 	public int Health => health;
@@ -21,14 +20,11 @@ public class CharacterHealthComponent : MonoBehaviour
 	public bool IsDead => health == 0;
 	public bool IsAlive => health != 0;
 
+	public bool Invulnerable { get => invulnerable; set => invulnerable = value; }
+
 	//Callbacks
 	public UnityAction takeDamageCallback = () => { /*Debug.Log("TakeDamageCallback");*/ };
 	public UnityAction takeHealCallback = () => { /*Debug.Log("TakeHealCallback");*/ };
-
-	private void Awake()
-	{
-		character = GetComponent<Character>();
-	}
 
 	public void Init(int healthMax)
 	{
@@ -37,7 +33,7 @@ public class CharacterHealthComponent : MonoBehaviour
 	}
 	public void TakeDamage(int damage)
 	{
-		if (character.State == CharacterState.Dodge) return;
+		if (invulnerable) return;
 
 		health -= damage;
 		if (health < 0)

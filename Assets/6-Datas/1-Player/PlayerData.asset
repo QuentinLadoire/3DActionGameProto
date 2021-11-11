@@ -16,9 +16,9 @@ MonoBehaviour:
   movementSpeed: 5
   dodgeSpeed: 10
   dodgeDistance: 5
-  dodgeCooldown: 5
+  dodgeCooldown: 1.5
   attackComboMax: 3
-  attackSpeed: 1.5
+  attackSpeed: 2
   attackRange: 2
   attackComboDelay: 0.6
   damage: 3
