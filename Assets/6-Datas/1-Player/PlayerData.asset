@@ -15,7 +15,7 @@ MonoBehaviour:
   healthMax: 10
   movementSpeed: 5
   dodgeSpeed: 10
-  dodgeDistance: 4
+  dodgeDistance: 5
   dodgeCooldown: 5
   attackComboMax: 3
   attackSpeed: 1.5
