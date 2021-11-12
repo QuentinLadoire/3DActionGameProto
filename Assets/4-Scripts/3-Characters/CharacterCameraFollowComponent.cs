@@ -45,6 +45,16 @@ public class CharacterCameraFollowComponent : MonoBehaviour
 	}
 	private void MovePosition()
 	{
-		transform.localPosition = movePosition;
+		var origin = character.transform.position + character.transform.up * 0.1f;
+		var direction = transform.TransformVector(movePosition);
+		if (Physics.Raycast(origin, direction, out RaycastHit hit, direction.magnitude))
+		{
+			var point = hit.point;
+			point.y = 0.0f;
+
+			direction = point - character.transform.position;
+		}
+
+		transform.localPosition = transform.InverseTransformVector(direction);
 	}
 }
