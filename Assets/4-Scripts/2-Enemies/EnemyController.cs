@@ -97,6 +97,7 @@ public class EnemyController : MonoBehaviour
 		despawnComponent.Despawn();
 
 		navMovementComponent.Stop();
+		attackComponent.CancelAttack();
 
 		character.State = CharacterState.Dead;
 		UpdateAnimatorState();
@@ -115,6 +116,8 @@ public class EnemyController : MonoBehaviour
 	}
 	private void MoveTo(Vector3 destination)
 	{
+		attackComponent.CancelAttack();
+
 		navMovementComponent.MoveTo(destination);
 
 		character.State = CharacterState.Move;

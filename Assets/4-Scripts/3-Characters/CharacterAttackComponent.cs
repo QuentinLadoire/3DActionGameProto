@@ -154,6 +154,12 @@ public class CharacterAttackComponent : MonoBehaviour
 
 		combo++;
 	}
+	public void CancelAttack()
+	{
+		inCombo = false;
+		inAttack = false;
+		inCooldown = false;
+	}
 
 	private void OnDrawGizmos()
 	{
