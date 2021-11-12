@@ -96,6 +96,8 @@ public class EnemyController : MonoBehaviour
 	{
 		despawnComponent.Despawn();
 
+		navMovementComponent.Stop();
+
 		character.State = CharacterState.Dead;
 		UpdateAnimatorState();
 	}
