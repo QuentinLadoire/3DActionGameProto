@@ -23,7 +23,7 @@ public class GameplayCanvas : MonoBehaviour
 		}
 		else if (GameManager.GameState == GameState.InDeath)
 		{
-			endPanel.SetText("GameOver");
+			endPanel.SetText("Defeat !!!");
 			endPanel.gameObject.SetActive(true);
 		}
 		else if (GameManager.GameState == GameState.InVictory)
