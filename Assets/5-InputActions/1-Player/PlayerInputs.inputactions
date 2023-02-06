@@ -11,7 +11,8 @@
                     "id": "0e362a09-0dbb-4a1c-bef4-853f4a30776e",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Dodge",
@@ -19,7 +20,8 @@
                     "id": "cf2ebebc-2ed6-46f3-ae85-44e1f389088b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -27,7 +29,8 @@
                     "id": "9f0a20d5-79c7-49bd-ab6b-0465f33335cb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
